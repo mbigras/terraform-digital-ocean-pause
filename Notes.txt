@@ -1,0 +1,14 @@
+Terraform DigitalOcean Pause
+
+Overview
+
+Context
+
+
+Context
+
+Terraform will exit before the droplet is actually ready
+There is a file that gets created in a digital ocean droplet once it's finished booting
+Terraform should loop until the droplet is actually done
+Terraform should also do some prep work for Ansible
+The prep work is preparing a hosts file along with performing an ssh keyscan

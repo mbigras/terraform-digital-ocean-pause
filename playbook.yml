@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+
+  - name: Create application user
+    user:
+      name: appuser
+
+  - name: Set application user authorized_keys file
+    authorized_key:
+      user: appuser
+      state: present
+      key: "{{ lookup('file', playbook_dir + '/id_rsa.pub') }}"
