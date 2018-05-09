@@ -12,6 +12,6 @@ terraform plan
 terraform apply -auto-approve
 ansible-playbook playbook.yml
 ip=$(terraform state show digitalocean_droplet.web | awk '/ipv4_address/ { print $NF }')
-ssh -i id_rsa appuser@$ip echo hello world
+ssh -i id_rsa someuser@$ip echo hello world
 terraform destroy -force
 ```

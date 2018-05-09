@@ -4,10 +4,10 @@
 
   - name: Create application user
     user:
-      name: appuser
+      name: someuser
 
   - name: Set application user authorized_keys file
     authorized_key:
-      user: appuser
+      user: someuser
       state: present
       key: "{{ lookup('file', playbook_dir + '/id_rsa.pub') }}"
