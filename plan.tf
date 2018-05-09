@@ -5,6 +5,14 @@ provider "digitalocean" {
   version = "~> 0.1"
 }
 
+provider "local" {
+  version = "~> 1.1"
+}
+
+provider "null" {
+  version = "~> 1.0"
+}
+
 resource "digitalocean_ssh_key" "default" {
   name = "tmp key"
   public_key = "${file("id_rsa.pub")}"
