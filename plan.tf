@@ -41,6 +41,17 @@ resource "digitalocean_droplet" "web" {
   }
 }
 
+resource "null_resource" "ssh_tester" {
+  provisioner "local-exec" {
+    command = <<EOF
+      ip="${digitalocean_droplet.web.ipv4_address}"
+      ssh-keyscan $ip >> ~/.ssh/known_hosts
+      ssh -i id_rsa root@$ip echo Hello remote world!
+      # ansible all -m ping
+    EOF
+  }
+}
+
 resource "local_file" "hosts" {
     content = "[droplets]\n${digitalocean_droplet.web.ipv4_address}\n"
     filename = "hosts"
@@ -49,10 +60,11 @@ resource "local_file" "hosts" {
 resource "null_resource" "ansible_tester" {
   provisioner "local-exec" {
     command = <<EOF
-      ip="${digitalocean_droplet.web.ipv4_address}"
-      ssh-keyscan $ip >> ~/.ssh/known_hosts
-      ssh -i id_rsa root@$ip echo Hello remote world!
       ansible all -m ping
     EOF
   }
+  depends_on = [
+    "local_file.hosts",
+    "null_resource.ssh_tester"
+  ]
 }
